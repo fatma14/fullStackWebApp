@@ -7,6 +7,7 @@ router.get("/", (req, res, next) => {
 });
 
 router.post("/content", (req, res, next) => {
+  const {username, password, birthday, email } = req.body
   User.create({
     username,
     password,
@@ -14,7 +15,7 @@ router.post("/content", (req, res, next) => {
     email
   })
     .then(newUser => {
-      res.redirect("content.hbs");
+      res.render("content");
     })
     .catch(err => {
       console.log(err);
