@@ -1,2 +1,21 @@
-<h1>{{title}}</h1>
-<p>Welcome to {{title}}</p>
+<h1>Welcome</h1>
+
+<form id="form" action="/content" method="POST">
+    <label for="username">Username</label><br>
+    <input type="text" name="username" placeholder="Your username">
+
+    <label for="password">Password</label><br>
+    <input type="password" name="password" placeholder="********">
+
+    <label for="birthday">Birthday</label><br>
+    <input type="date" name="bithday" id="birthday">
+
+    <label for="email">Email</label><br>
+    <input type="text" name="email" id="email">
+
+    <button type="submit">Create account</button>
+</form>
+
+{{#if message}}
+   <p class="error-message">{{message}}</p>
+{{/if}}
