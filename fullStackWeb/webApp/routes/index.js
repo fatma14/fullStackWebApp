@@ -2,17 +2,20 @@ const express = require("express");
 const router = express.Router();
 const User = require("../models/User");
 const bcrypt = require("bcryptjs");
+const passeport = require("passport")
 
 /* GET home page */
 router.get("/", (req, res, next) => {
   res.render("index");
 });
 
- router.post("/content", (req, res, next) => {
-   res.render("content")
- });
+//  router.get("/", (req, res, next) => {
+//    res.render("content")
+//  });
 
-router.post("/index", (req, res, next) => {
+
+
+router.post("/content", (req, res, next) => {
   const {username, password, birthday, email } = req.body
   
 

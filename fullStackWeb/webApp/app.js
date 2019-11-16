@@ -37,6 +37,10 @@ app.use(bodyParser.urlencoded({
   extended: false
 }));
 app.use(cookieParser());
+app.use((req,res,next) => {
+  console.log(req.originalUrl)
+  next()
+})
 
 // Express View engine setup
 
