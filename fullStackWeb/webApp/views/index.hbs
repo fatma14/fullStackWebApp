@@ -4,6 +4,7 @@
     <label for="username">Username</label><br>
     <input type="text" name="username" placeholder="Your username">
 
+<<<<<<< HEAD
     <label for="birthday">Birthday</label><br>
     <input type="Date" name="birthday" placeholder="Birthday">
 
@@ -15,3 +16,20 @@
 
     <button type="submit">Create account</button>
 </form>
+=======
+    <label for="password">Password</label><br>
+    <input type="password" name="password" placeholder="********">
+
+    <label for="birthday">Birthday</label><br>
+    <input type="date" name="bithday" id="birthday">
+
+    <label for="email">Email</label><br>
+    <input type="text" name="email" id="email">
+
+    <button type="submit">Create account</button>
+</form>
+
+{{#if message}}
+   <p class="error-message">{{message}}</p>
+{{/if}}
+>>>>>>> master
