@@ -8,7 +8,11 @@ router.get("/", (req, res, next) => {
   res.render("index");
 });
 
-router.post("/content", (req, res, next) => {
+ router.post("/content", (req, res, next) => {
+   res.render("content")
+ });
+
+router.post("/index", (req, res, next) => {
   const {username, password, birthday, email } = req.body
   
 
@@ -27,22 +31,14 @@ router.post("/content", (req, res, next) => {
         bcrypt.genSalt().then(salt => {
           return bcrypt.hash(password, salt)
         })
-        .then(hash => User.create({username: username, password: hash, birthday: birthday, email: email})). then( newUser => {
-          res.redirect("/content")
-        })
+        .then(hash => User.create({username: username, password: hash, birthday: birthday, email: email}))
+        .then( 
+          res.render("content.hbs")
+         )
 
     })
       
       
-    
-   /*.then(newUser => {
-      res.render("content");
-    })
-    .catch(err => {
-      console.log(err);
-    });
-
-*/
 
 })
 
