@@ -8,7 +8,11 @@ const hbs = require("hbs");
 const mongoose = require("mongoose");
 const logger = require("morgan");
 const path = require("path");
-
+const session = require("express-session");
+const passport = require("passport");
+const LocalStrategy = require('passport-local').Strategy;
+const bcrypt = require("bcryptjs");
+const User = require("./models/User");
 
 mongoose
   .connect("mongodb://localhost/webapp", {
@@ -31,16 +35,58 @@ const debug = require("debug")(
 const app = express();
 
 // Middleware Setup
+app.use(session({ secret: "cats" }));
 app.use(logger("dev"));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({
   extended: false
 }));
+app.use(passport.initialize());
+app.use(passport.session());
 app.use(cookieParser());
 app.use((req,res,next) => {
   console.log(req.originalUrl)
   next()
-})
+});
+
+passport.serializeUser(function(user, done) {
+  done(null, user.id);
+});
+
+passport.deserializeUser(function(id, done) {
+  User.findById(id, function(err, user) {
+    done(err, user);
+  });
+});
+
+passport.use(new LocalStrategy(
+  function(username, password, done) {
+    User.findOne({username: username}).then(
+      user => {
+        if (!user) {
+          return done(null, false, { message: 'Incorrect username.' });
+        }
+
+        bcrypt.compare(password, user.password).then(isPasswordCorrect => {
+          if(isPasswordCorrect){
+            done(null, user);
+          } else {
+            done(null, false, { message: "Invalid credentials" });
+          }
+        }) 
+        
+      }
+    ).catch(err => done(err));
+  }
+
+))
+  
+    
+
+
+
+
+
 
 // Express View engine setup
 
