@@ -35,7 +35,9 @@ const debug = require("debug")(
 const app = express();
 
 // Middleware Setup
-app.use(session({ secret: "cats" }));
+app.use(session({
+  secret: "cats"
+}));
 app.use(logger("dev"));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({
@@ -44,81 +46,80 @@ app.use(bodyParser.urlencoded({
 app.use(passport.initialize());
 app.use(passport.session());
 app.use(cookieParser());
-app.use((req,res,next) => {
+app.use((req, res, next) => {
   console.log(req.originalUrl)
   next()
 });
 
-passport.serializeUser(function(user, done) {
+passport.serializeUser(function (user, done) {
   done(null, user.id);
 });
 
-passport.deserializeUser(function(id, done) {
-  User.findById(id, function(err, user) {
+passport.deserializeUser(function (id, done) {
+  User.findById(id, function (err, user) {
     done(err, user);
   });
 });
 
 passport.use(new LocalStrategy(
-  function(username, password, done) {
-    User.findOne({username: username}).then(
+  function (username, password, done) {
+    User.findOne({
+      username: username
+    }).then(
       user => {
         if (!user) {
-          return done(null, false, { message: 'Incorrect username.' });
+          return done(null, false, {
+            message: 'Incorrect username.'
+          });
         }
 
         bcrypt.compare(password, user.password).then(isPasswordCorrect => {
-          if(isPasswordCorrect){
+          if (isPasswordCorrect) {
             done(null, user);
           } else {
-            done(null, false, { message: "Invalid credentials" });
+            done(null, false, {
+              message: "Invalid credentials"
+            });
           }
-        }) 
-        
+        })
+
       }
     ).catch(err => done(err));
   }
 
 ))
-  
-    
-
-
-
-
-
-
 
 //GOOGLE LOGIN
 const GoogleStrategy = require("passport-google-oauth20").Strategy;
 
 passport.use(
-  new GoogleStrategy (
-    {
+  new GoogleStrategy({
       clientID: process.env.GOOGLE_CLIENT_ID,
       clientSecret: process.env.GOOGLE_CLIENT_SECRET,
       callbackURL: "http://localhost:3000/google/callback"
     },
     (accessToken, refreshToken, profile, done) => {
       console.log("Google details:", profile);
-      User.findOne({ googleId: profile.id })
-      .then(user => {
-        if (user) {
-          done(null, user);
-        } else {
-          return User.create({
-            googleId: profile.id,
-            name: profile.displayName
-          }).then(newUser => {
-            done(null, newUser);
-          });
-        }
-      })
-      .catch(err => {
-        done(err);
-      });
-  }
-)
+      User.findOne({
+          googleId: profile.id
+        })
+        .then(user => {
+          if (user) {
+            done(null, user);
+          } else {
+            return User.create({
+              googleId: profile.id,
+              name: profile.displayName
+            }).then(newUser => {
+              done(null, newUser);
+            });
+          }
+        })
+        .catch(err => {
+          done(err);
+        });
+    }
+  )
 );
 
 app.use(passport.initialize());
