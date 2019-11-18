@@ -3,39 +3,12 @@ const router = express.Router();
 const User = require("../models/User");
 const bcrypt = require("bcryptjs");
 const passport = require("passport")
-<<<<<<< HEAD
-=======
 
->>>>>>> login
 /* GET home page */
 router.get("/", (req, res, next) => {
   res.render("home-page");
 });
 
-<<<<<<< HEAD
-router.post("/content", (req, res, next) => {
-  res.render("content")
-});
- router.get("/content", (req, res, next) => {
-   res.render("content")
- });
-
-
-router.get("/google", passport.authenticate("google", {scope: ["content"]}))
-
-router.get(
-  "/google/callback", 
-  passport.authenticate("google", {
-    sucessRedirect: "/content",
-    failureRedirect: "/"
-  })
-  )
-
-
-
-
-router.post("/index", (req, res, next) => {
-=======
 /* Get preferences page after signup */
 router.get("/preferences", (req, res, next) => {
   res.render("preferences")
@@ -48,7 +21,6 @@ res.render("articles")
 
 /* signup */
 router.post("/signup", (req, res, next) => {
->>>>>>> login
   const {username, password, birthday, email } = req.body
   
   if(!username) {
@@ -72,11 +44,6 @@ router.post("/signup", (req, res, next) => {
          )
 
     })
-<<<<<<< HEAD
-      
-  
-=======
->>>>>>> login
 })
 
 /*Login */
@@ -94,6 +61,17 @@ router.get('/logout', function(req, res){
   res.redirect('/');
 });
 
+
+//Google log in 
+router.get("/google", passport.authenticate("google", {scope: ["content"]}))
+
+router.get(
+  "/google/callback", 
+  passport.authenticate("google", {
+    sucessRedirect: "/articles",
+    failureRedirect: "/"
+  })
+  )
 
 
 module.exports = router;
