@@ -2,7 +2,10 @@ const express = require("express");
 const router = express.Router();
 const User = require("../models/User");
 const bcrypt = require("bcryptjs");
-const passport = require("passport")
+const passport = require("passport");
+
+
+const {getTopHeadlines} = require("../service/api")
 
 /* GET home page */
 router.get("/", (req, res, next) => {
@@ -10,9 +13,7 @@ router.get("/", (req, res, next) => {
 });
 
 /* Get preferences page after signup */
-router.get("/preferences", (req, res, next) => {
-  res.render("preferences")
-});
+
 
 /* Get articles page after login */
 router.get("/articles", (req, res, next) => {
@@ -56,12 +57,25 @@ router.post('/login',
                                    failureFlash: true })
 );
 
-/* Logout*/
+router.get('/preferences', (req, res,next)=>{
 
+  getTopHeadlines()
+  .then(data=>{
+    console.log("result fro, headline func",data)
+    res.render('preferences');
+    
+  }
+  
+  )
+}
+);
+
+/* Logout*/
 router.get('/logout', function(req, res){
   req.logout();
   res.redirect('/');
 });
+
 
 // Google log in 
 
