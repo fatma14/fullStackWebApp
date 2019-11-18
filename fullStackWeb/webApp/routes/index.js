@@ -63,6 +63,16 @@ router.get('/logout', function(req, res){
   res.redirect('/');
 });
 
+// Google log in 
 
+router.get("/google", passport.authenticate("google", {scope: ["content"]}))
+
+router.get(
+  "/google/callback", 
+  passport.authenticate("google", {
+    sucessRedirect: "/articles",
+    failureRedirect: "/"
+  })
+  )
 
 module.exports = router;
