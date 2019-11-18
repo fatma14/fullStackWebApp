@@ -89,14 +89,6 @@ passport.use(new LocalStrategy(
 
 ))
 
-
-
-
-
-
-
-
-
 //GOOGLE LOGIN
 const GoogleStrategy = require("passport-google-oauth20").Strategy;
 
