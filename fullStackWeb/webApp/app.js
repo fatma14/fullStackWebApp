@@ -14,6 +14,7 @@ const LocalStrategy = require('passport-local').Strategy;
 const bcrypt = require("bcryptjs");
 const User = require("./models/User");
 
+
 mongoose
   .connect("mongodb://localhost/webapp", {
     useNewUrlParser: true
@@ -38,11 +39,13 @@ const app = express();
 app.use(session({
   secret: "cats"
 }));
+
 app.use(logger("dev"));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({
   extended: false
 }));
+
 app.use(passport.initialize());
 app.use(passport.session());
 app.use(cookieParser());
@@ -60,6 +63,30 @@ passport.deserializeUser(function (id, done) {
     done(err, user);
   });
 });
+
+passport.use(new LocalStrategy({
+  usernameField: 'username',
+  passwordField: 'password'
+}, 
+(username, password, done) => {
+  User.findOne({ username })
+  .then(foundUser => {
+    if (!foundUser) {
+      done(null, false, { message: 'Incorrect username' });
+      return;
+    }
+
+    if (!bcrypt.compareSync(password, foundUser.password)) {
+      done(null, false, { message: 'Incorrect password' });
+      return;
+    }
+
+    done(null, foundUser);
+  })
+  .catch(err => done(err));
+}
+));
+
 
 passport.use(new LocalStrategy(
   function (username, password, done) {

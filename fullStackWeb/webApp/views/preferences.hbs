@@ -1,9 +1,56 @@
 
 <h>Please make your choices</h>
 
-<p>
-    Language
-    Topic
-</p>
+
+  <div id="search-bar" class="search-content">
+    <input type="text" placeholder="Search.." id="myInput" onkeyup="filterFunction()">
+    
+    {{#each data.sources}}
+        <span class="source-tag">{{name}}</span>
+    {{/each}}
+  
+  </div>
+
+  <button onclick="handleSubmit()">Submit your choices</button>
+
+
+
+<script>
+let user ="{{user}}";
+const selectedSources = [];
+
+ document.querySelectorAll(".source-tag").forEach(x => {
+     return x.addEventListener("click", () => selectedSources.push(x.innerHTML))
+     })
+const handleSubmit = () => {
+    console.log(selectedSources)
+
+    axios.post("/articles", {sources: selectedSources, user})
+    .then(response => {
+        console.log(response)
+        window.location = "/articles";
+    })
+    .catch(error => {
+       console.log(error)
+    })
+}
+
+function filterFunction() {
+  var input, filter, ul, li, a, i;
+  input = document.getElementById("myInput");
+  filter = input.value.toUpperCase();
+  div = document.getElementById("search-bar");
+  a = div.getElementsByTagName("span");
+  for (i = 0; i < a.length; i++) {
+    txtValue = a[i].textContent || a[i].innerText;
+    if (txtValue.toUpperCase().indexOf(filter) > -1) {
+      a[i].style.display = "";
+    } else {
+      a[i].style.display = "none";
+    }
+  }
+}
+
+</script>
 
 <a href="/logout">Log out</a>
