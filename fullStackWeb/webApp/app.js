@@ -8,6 +8,7 @@ const hbs = require("hbs");
 const mongoose = require("mongoose");
 const logger = require("morgan");
 const path = require("path");
+const passport = require("passport")
 
 
 mongoose
@@ -37,6 +38,42 @@ app.use(bodyParser.urlencoded({
   extended: false
 }));
 app.use(cookieParser());
+
+
+//GOOGLE LOGIN
+const GoogleStrategy = require("passport-google-oauth20").Strategy;
+
+passport.use(
+  new GoogleStrategy (
+    {
+      clientID: process.env.GOOGLE_CLIENT_ID,
+      clientSecret: process.env.GOOGLE_CLIENT_SECRET,
+      callbackURL: "http://localhost:3000/google/callback"
+    },
+    (accessToken, refreshToken, profile, done) => {
+      console.log("Google details:", profile);
+      User.findOne({ googleId: profile.id })
+      .then(user => {
+        if (user) {
+          done(null, user);
+        } else {
+          return User.create({
+            googleId: profile.id,
+            name: profile.displayName
+          }).then(newUser => {
+            done(null, newUser);
+          });
+        }
+      })
+      .catch(err => {
+        done(err);
+      });
+  }
+)
+);
+
+app.use(passport.initialize());
+app.use(passport.session());
 
 // Express View engine setup
 
