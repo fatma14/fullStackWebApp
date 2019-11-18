@@ -46,6 +46,8 @@ router.post("/signup", (req, res, next) => {
     })
 })
 
+
+
 /*Login */
 
 router.post('/login',
@@ -61,8 +63,8 @@ router.get('/logout', function(req, res){
   res.redirect('/');
 });
 
+// Google log in 
 
-//Google log in 
 router.get("/google", passport.authenticate("google", {scope: ["content"]}))
 
 router.get(
@@ -72,6 +74,5 @@ router.get(
     failureRedirect: "/"
   })
   )
-
 
 module.exports = router;
