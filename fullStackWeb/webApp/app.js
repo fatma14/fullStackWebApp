@@ -8,16 +8,11 @@ const hbs = require("hbs");
 const mongoose = require("mongoose");
 const logger = require("morgan");
 const path = require("path");
-<<<<<<< HEAD
-const passport = require("passport")
-
-=======
 const session = require("express-session");
 const passport = require("passport");
 const LocalStrategy = require('passport-local').Strategy;
 const bcrypt = require("bcryptjs");
 const User = require("./models/User");
->>>>>>> login
 
 mongoose
   .connect("mongodb://localhost/webapp", {
