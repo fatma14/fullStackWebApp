@@ -1,72 +1,76 @@
 <h1>Welcome</h1>
 
-<div class ="container">
+<div class="container">
 
-<form id="form" action="/signup" method="POST">
+  <form id="form" action="/signup" method="POST">
 
-<div class="input-group mb-3">
-  <div class="input-group-prepend">
-    <span class="input-group-text" id="inputGroup-sizing-default">Username</span>
-  </div>
-  <input name ="username" type="text" class="form-control" placeholder ="Username" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-default">
-</div>
+    <div class="input-group mb-3">
+      <div class="input-group-prepend">
+        <span class="input-group-text" id="inputGroup-sizing-default">Username</span>
+      </div>
+      <input name="username" type="text" class="form-control" placeholder="Username" aria-label="Sizing example input"
+        aria-describedby="inputGroup-sizing-default">
+    </div>
 
-<div class="input-group mb-3">
-  <div class="input-group-prepend">
-    <span class="input-group-text" id="inputGroup-sizing-default">Password</span>
-  </div>
-  <input name = "password" type="password" class="form-control" placeholder="********" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-default">
-</div>
+    <div class="input-group mb-3">
+      <div class="input-group-prepend">
+        <span class="input-group-text" id="inputGroup-sizing-default">Password</span>
+      </div>
+      <input name="password" type="password" class="form-control" placeholder="********"
+        aria-label="Sizing example input" aria-describedby="inputGroup-sizing-default">
+    </div>
 
-<div class="input-group mb-3">
-  <div class="input-group-prepend">
-    <span class="input-group-text" id="inputGroup-sizing-default">E-mail</span>
-  </div>
-  <input name="email" type="text" class="form-control" placeholder="@example.com" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-default">
-</div>
+    <div class="input-group mb-3">
+      <div class="input-group-prepend">
+        <span class="input-group-text" id="inputGroup-sizing-default">E-mail</span>
+      </div>
+      <input name="email" type="text" class="form-control" placeholder="@example.com" aria-label="Sizing example input"
+        aria-describedby="inputGroup-sizing-default">
+    </div>
 
-<div class="input-group mb-3">
-  <div class="input-group-prepend">
-    <span class="input-group-text" id="inputGroup-sizing-default">Birthday</span>
-  </div>
-  <input name="birthday" type="Date" class="form-control"  aria-label="Sizing example input" aria-describedby="inputGroup-sizing-default">
-</div>
+    <div class="input-group mb-3">
+      <div class="input-group-prepend">
+        <span class="input-group-text" id="inputGroup-sizing-default">Birthday</span>
+      </div>
+      <input name="birthday" type="Date" class="form-control" aria-label="Sizing example input"
+        aria-describedby="inputGroup-sizing-default">
+    </div>
 
-<button type="submit" class="btn btn-success mb-5">Create account</button>
+    <button type="submit" class="btn btn-success mb-5">Create account</button>
 
-</form>
+  </form>
 </div>
 
 {{#if message}}
-   <p class="error-message">{{message}}</p>
+<p class="error-message">{{message}}</p>
 {{/if}}
 
 
 <div class="container">
-<form action="/login" method="post">
+  <form action="/login" method="post">
 
-<div class="input-group mb-3">
-  <div class="input-group-prepend">
-    <span class="input-group-text" id="inputGroup-sizing-default">Username</span>
-  </div>
-  <input name ="username" type="text" class="form-control" placeholder ="Username" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-default">
-</div>
-
-<div class="input-group mb-3">
-  <div class="input-group-prepend">
-    <span class="input-group-text" id="inputGroup-sizing-default">Password</span>
-  </div>
-  <input name = "password" type="password" class="form-control" placeholder="********" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-default">
-</div>
-
-    <div>
-        <input type="submit" class="btn btn-success mb-5" value="Log In"/>
+    <div class="input-group mb-3">
+      <div class="input-group-prepend">
+        <span class="input-group-text" id="inputGroup-sizing-default">Username</span>
+      </div>
+      <input name="username" type="text" class="form-control" placeholder="Username" aria-label="Sizing example input"
+        aria-describedby="inputGroup-sizing-default">
     </div>
 
-</form>
+    <div class="input-group mb-3">
+      <div class="input-group-prepend">
+        <span class="input-group-text" id="inputGroup-sizing-default">Password</span>
+      </div>
+      <input name="password" type="password" class="form-control" placeholder="********"
+        aria-label="Sizing example input" aria-describedby="inputGroup-sizing-default">
+    </div>
 
-<a href="/articles">Log in with Google</a>
+    <div>
+      <input type="submit" class="btn btn-success mb-5" value="Log In" />
+    </div>
+
+  </form>
+
+  <a href="/google">Sign up with Google</a>
 
 </div>
-
-

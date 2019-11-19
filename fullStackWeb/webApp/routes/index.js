@@ -14,13 +14,15 @@ router.get("/", (req, res, next) => {
   res.render("home-page");
 });
 
+
 /* Get preferences page after signup */
 
 router.get('/preferences', (req, res, next) => {
   getTopHeadlines()
     .then(data => {
-      console.log(data.sources)
-      let categories = data.sources.map(x => {return x.category}) 
+      let categories = data.sources.map(x => {
+        return x.category
+      })
       let uniCategories = [...new Set(categories)];
       res.render('preferences', {
         data,
@@ -31,29 +33,27 @@ router.get('/preferences', (req, res, next) => {
 
 /* Get articles page after login */
 router.get("/articles", (req, res, next) => {
-  //console.log("req.user----------------", req.user)
+  
   res.render("articles")
 })
 
-router.post("/preferences", (req, res, next) => {
-  console.log(req.body.sources);
-  console.log(req.user)
 
+router.post("/preferences", (req, res, next) => {
+  
   User.findByIdAndUpdate(req.user.id, {
       $push: {
         preferences: req.body.sources,
+        languages: req.body.userLanguages,
         category: req.body.category
       }
     }, {
       new: true
     })
     .then(result => {
-      console.log("looooooooooook  ", result)
       res.send(result)
       // res.json(result)
     })
     .catch(err => console.log(err))
-
 })
 
 /* signup */
@@ -103,9 +103,6 @@ router.post("/signup",
               if (err) next(err);
               else res.redirect("/preferences/");
             });
-
-
-
           }).catch(err => {
             res.render("/home-page", {
               message: "something is wrong!"
@@ -133,18 +130,18 @@ router.get('/logout', function (req, res) {
 });
 
 
-// Google log in 
 
+//GOOGLE SIGN UP
 router.get("/google", passport.authenticate("google", {
-  scope: ["content"]
-}))
+  scope: ["profile"]
+}));
 
 router.get(
   "/google/callback",
   passport.authenticate("google", {
-    sucessRedirect: "/articles",
-    failureRedirect: "/"
+    failureRedirect: "/auth/login",
+    successRedirect: "/preferences"
   })
-)
+);
 
 module.exports = router;

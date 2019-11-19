@@ -65,26 +65,32 @@ passport.deserializeUser(function (id, done) {
 });
 
 passport.use(new LocalStrategy({
-  usernameField: 'username',
-  passwordField: 'password'
-}, 
-(username, password, done) => {
-  User.findOne({ username })
-  .then(foundUser => {
-    if (!foundUser) {
-      done(null, false, { message: 'Incorrect username' });
-      return;
-    }
+    usernameField: 'username',
+    passwordField: 'password'
+  },
+  (username, password, done) => {
+    User.findOne({
+        username
+      })
+      .then(foundUser => {
+        if (!foundUser) {
+          done(null, false, {
+            message: 'Incorrect username'
+          });
+          return;
+        }
 
-    if (!bcrypt.compareSync(password, foundUser.password)) {
-      done(null, false, { message: 'Incorrect password' });
-      return;
-    }
+        if (!bcrypt.compareSync(password, foundUser.password)) {
+          done(null, false, {
+            message: 'Incorrect password'
+          });
+          return;
+        }
 
-    done(null, foundUser);
-  })
-  .catch(err => done(err));
-}
+        done(null, foundUser);
+      })
+      .catch(err => done(err));
+  }
 ));
 
 
@@ -116,26 +122,28 @@ passport.use(new LocalStrategy(
 
 ))
 
-//GOOGLE LOGIN
+//GOOGLE SIGNUP
 const GoogleStrategy = require("passport-google-oauth20").Strategy;
 
 passport.use(
   new GoogleStrategy({
       clientID: process.env.GOOGLE_CLIENT_ID,
       clientSecret: process.env.GOOGLE_CLIENT_SECRET,
-      callbackURL: "http://localhost:3000/google/callback"
+      callbackURL: "http://localhost:3000/google/callback",
+      passReqToCallback: true
     },
-    (accessToken, refreshToken, profile, done) => {
-      console.log("Google details:", profile);
+    (req, accessToken, refreshToken, profile, done) => {
+
       User.findOne({
           googleId: profile.id
         })
         .then(user => {
+          console.log("-------", user)
           if (user) {
             done(null, user);
           } else {
             return User.create({
-              googleId: profile.id,
+              googleID: profile.id,
               name: profile.displayName
             }).then(newUser => {
               done(null, newUser);

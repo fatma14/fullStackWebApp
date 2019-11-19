@@ -3,45 +3,57 @@
 <div id="search-bar" class="search-content">
   <input type="text" placeholder="Search.." id="myInput" onkeyup="filterFunction()">
 
-  {{#each data.sources}}
-  <span class="source-tag">{{name}}</span>
+    {{#each data.sources}}
+        <span class="source-tag">{{name}}</span>
+    {{/each}}
+  </div>
 
-  {{/each}}
+    {{#each uniCategories}}
+    <p class="categ">{{this}}</p>
+    {{/each}}
 
-  {{#each uniCategories}}
-  <p class="categ">{{this}}</p>
-  {{/each}}
-
+    <span class="language-tag">Arabic</span>
+    <span class="language-tag">German</span>
+    <span class="language-tag">English</span>
+    <span class="language-tag">Spanish</span>
+    <span class="language-tag">Dutch</span>
+    <span class="language-tag">Russian</span>
+  
 </div>
 
 <button onclick="handleSubmit()">Submit your choices</button>
 
-
 <script>
-  // let user ={{user}};
-  const selectedSources = [];
-  const selectedCategories = [];
+// let user ={{user}};
+const selectedSources = [];
+const selectedLanguages = [];
+const selectedCategories = [];
+ document.querySelectorAll(".source-tag").forEach(sourceSelected => {
+     return sourceSelected.addEventListener("click", () => selectedSources.push(sourceSelected.innerHTML))
+     })
 
-  document.querySelectorAll(".source-tag").forEach(sourceSelected => {
-    return sourceSelected.addEventListener("click", () => selectedSources.push(sourceSelected.innerHTML))
+  document.querySelectorAll(".language-tag").forEach(languageSelected => {
+    return languageSelected.addEventListener("click", () => selectedLanguages.push(languageSelected.innerHTML))
   })
 
   document.querySelectorAll(".categ").forEach(categorySelected => {
     return categorySelected.addEventListener("click", () => selectedCategories.push(categorySelected.innerHTML))
   })
-  const handleSubmit = () => {
-    console.log(selectedSources)
-    console.log(user)
 
-    axios.post("/preferences", { sources: selectedSources, category: selectedCategories })
-      .then(response => {
-        console.log(response)
-        window.location.href = "/articles"
-      })
-      .catch(error => {
-        console.log(error)
-      })
-  }
+
+const handleSubmit = () => {
+    //console.log(selectedSources)
+    // console.log(user)
+
+    axios.post("/preferences", {sources: selectedSources, userLanguages: selectedLanguages, category: selectedCategories})
+    .then(response => {
+        //console.log(response)
+      window.location.href = "/articles"
+    })
+    .catch(error => {
+      console.log(error)
+    })
+}
 
   function filterFunction() {
     var input, filter, ul, li, a, i;

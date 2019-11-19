@@ -9,8 +9,8 @@ const userSchema = new Schema({
     email: String,
     googleID: String,
     preferences: [String],
+    languages: [],
     category: [String]
-
 });
 
 const User = mongoose.model("User", userSchema);
