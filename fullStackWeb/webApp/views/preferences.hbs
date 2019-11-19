@@ -31,7 +31,7 @@
   })
   const handleSubmit = () => {
     console.log(selectedSources)
-    // console.log(user)
+    console.log(user)
 
     axios.post("/preferences", { sources: selectedSources, category: selectedCategories })
       .then(response => {
