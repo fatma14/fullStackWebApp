@@ -14,20 +14,18 @@ router.get("/", (req, res, next) => {
 
 /* Get preferences page after signup */
 
-router.get('/preferences/', (req, res,next) => {
+router.get('/preferences', (req, res,next) => {
   getTopHeadlines()
   .then(data => {
     console.log(data.sources)
     res.render('preferences', {data});
-    
   })
 }
 );
 
 /* Get articles page after login */
 router.get("/articles", (req, res, next) => {
-
-  console.log("req.user----------------", req.user)
+  //console.log("req.user----------------", req.user)
 res.render("articles")
 })
 
@@ -75,7 +73,7 @@ router.post("/preferences", (req, res, next) => {
             else res.redirect("/preferences/");
           });
          
-        
+
 
      }).catch(err => {res.render("/home-page", {message: "something is wrong!"})})
  })

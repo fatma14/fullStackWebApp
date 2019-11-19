@@ -1,26 +1,24 @@
 
 <h>Please make your choices</h>
 
-
   <div id="search-bar" class="search-content">
     <input type="text" placeholder="Search.." id="myInput" onkeyup="filterFunction()">
-    
+
     {{#each data.sources}}
         <span class="source-tag">{{name}}</span>
     {{/each}}
-  
+
   </div>
 
   <button onclick="handleSubmit()">Submit your choices</button>
-
 
 
 <script>
 // let user ={{user}};
 const selectedSources = [];
 
- document.querySelectorAll(".source-tag").forEach(x => {
-     return x.addEventListener("click", () => selectedSources.push(x.innerHTML))
+ document.querySelectorAll(".source-tag").forEach(sourceSelected => {
+     return sourceSelected.addEventListener("click", () => selectedSources.push(sourceSelected.innerHTML))
      })
 const handleSubmit = () => {
     console.log(selectedSources)
@@ -51,7 +49,6 @@ function filterFunction() {
     }
   }
 }
-
 </script>
 
 <a href="/logout">Log out</a>
