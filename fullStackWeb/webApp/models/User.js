@@ -10,7 +10,7 @@ const userSchema = new Schema({
     googleID: String,
     preferences: [String],
     languages: [],
-    Categories: [String]
+    category: [String]
 });
 
 const User = mongoose.model("User", userSchema);
