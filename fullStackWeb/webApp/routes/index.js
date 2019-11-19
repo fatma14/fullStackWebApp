@@ -25,7 +25,7 @@ router.get('/preferences', (req, res,next) => {
 
 /* Get articles page after login */
 router.get("/articles", (req, res, next) => {
-  console.log("req.user----------------", req.user)
+  //console.log("req.user----------------", req.user)
 res.render("articles")
 })
 
@@ -70,7 +70,7 @@ res.json(result)
             else res.redirect("/preferences/");
           });
          
-        
+
 
      }).catch(err => {res.render("/home-page", {message: "something is wrong!"})})
  })
