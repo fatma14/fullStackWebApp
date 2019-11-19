@@ -6,7 +6,7 @@ const passport = require("passport");
 
 
 const {
-  getTopHeadlines
+  getTopHeadlines, getArticles
 } = require("../service/api")
 
 /* GET home page */
@@ -31,8 +31,10 @@ router.get('/preferences', (req, res, next) => {
 
 /* Get articles page after login */
 router.get("/articles", (req, res, next) => {
-  //console.log("req.user----------------", req.user)
-  res.render("articles")
+  getArticles(req.user)
+  .then(articles => {
+    res.render("articles",{articles})
+  })
 })
 
 router.post("/preferences", (req, res, next) => {
