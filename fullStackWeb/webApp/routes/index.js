@@ -18,7 +18,7 @@ router.get('/preferences/', (req, res,next) => {
   getTopHeadlines()
   .then(data => {
     console.log(data.sources)
-    res.render('preferences', {data, user});
+    res.render('preferences', {data});
     
   })
 }
@@ -31,16 +31,19 @@ router.get("/articles", (req, res, next) => {
 res.render("articles")
 })
 
-router.post("/articles", (req, res, next) => {
-  console.log(req.user);
+router.post("/preferences", (req, res, next) => {
+  console.log(req.body.sources);
+  console.log(req.user)
 
-  User.findByIdAndUpdate(req.body.user, {
-    preferences: req.body.sources
-  }, {new: true})
-  .then(result => {
-res.json(result)
-  })
-  .catch(err => console.log(err))
+   User.findByIdAndUpdate(req.user.id, 
+     {$push: {preferences: req.body.sources}
+   }, {new: true})
+   .then(result => {
+     console.log("looooooooooook  ", result)
+     res.send(result)
+ // res.json(result)
+   })
+   .catch(err => console.log(err))
 
 })
 
@@ -58,7 +61,7 @@ res.json(result)
 
      User.findOne({username:username}) 
      .then( found => {
-       if(found) {
+       if(found) {'Cast to ObjectId failed for value "" at path "_id" for model "User"'
          res.render("home-page", {message: "User already exists"})
        }
          bcrypt.genSalt().then(salt => {
@@ -69,7 +72,7 @@ res.json(result)
           //   authenticating the user with passport
           req.login(newUser, err => {
             if (err) next(err);
-            else res.redirect(`/preferences/${newUser._id}`);
+            else res.redirect("/preferences/");
           });
          
         
