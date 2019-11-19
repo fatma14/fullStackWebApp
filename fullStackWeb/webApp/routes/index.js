@@ -17,7 +17,7 @@ router.get("/", (req, res, next) => {
 router.get('/preferences', (req, res,next) => {
   getTopHeadlines()
   .then(data => {
-    console.log(data.sources)
+    //console.log(data.sources)
     res.render('preferences', {data});
   })
 }
@@ -30,14 +30,15 @@ res.render("articles")
 })
 
 router.post("/preferences", (req, res, next) => {
-  console.log(req.body.sources);
-  console.log(req.user)
+  // console.log(req.body.sources);
+  // console.log(req.user)
 
    User.findByIdAndUpdate(req.user.id, 
-     {$push: {preferences: req.body.sources}
+     {$push: {preferences: req.body.sources,
+     languages: req.body.userLanguages}
    }, {new: true})
    .then(result => {
-     console.log("looooooooooook  ", result)
+     console.log("looooooooooook ", result)
      res.send(result)
  // res.json(result)
    })
@@ -72,9 +73,6 @@ router.post("/preferences", (req, res, next) => {
             if (err) next(err);
             else res.redirect("/preferences/");
           });
-         
-
-
      }).catch(err => {res.render("/home-page", {message: "something is wrong!"})})
  })
 })

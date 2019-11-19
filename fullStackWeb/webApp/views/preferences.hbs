@@ -7,8 +7,14 @@
     {{#each data.sources}}
         <span class="source-tag">{{name}}</span>
     {{/each}}
-
   </div>
+  
+    <span class="language-tag">Arabic</span>
+    <span class="language-tag">German</span>
+    <span class="language-tag">English</span>
+    <span class="language-tag">Spanish</span>
+    <span class="language-tag">Dutch</span>
+    <span class="language-tag">Russian</span>
 
   <button onclick="handleSubmit()">Submit your choices</button>
 
@@ -16,21 +22,27 @@
 <script>
 // let user ={{user}};
 const selectedSources = [];
+const selectedLanguages = [];
 
  document.querySelectorAll(".source-tag").forEach(sourceSelected => {
      return sourceSelected.addEventListener("click", () => selectedSources.push(sourceSelected.innerHTML))
      })
+
+  document.querySelectorAll(".language-tag").forEach(languageSelected => {
+    return languageSelected.addEventListener("click", () => selectedLanguages.push(languageSelected.innerHTML))
+  })
+ console.log(selectedLanguages)
 const handleSubmit = () => {
-    console.log(selectedSources)
+    //console.log(selectedSources)
     // console.log(user)
 
-    axios.post("/preferences", {sources: selectedSources})
+    axios.post("/preferences", {sources: selectedSources, userLanguages: selectedLanguages})
     .then(response => {
-        console.log(response)
+        //console.log(response)
       window.location.href = "/articles"
     })
     .catch(error => {
-       console.log(error)
+      console.log(error)
     })
 }
 
