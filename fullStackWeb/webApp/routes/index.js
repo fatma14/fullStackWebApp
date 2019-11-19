@@ -5,7 +5,9 @@ const bcrypt = require("bcryptjs");
 const passport = require("passport");
 
 
-const {getTopHeadlines} = require("../service/api")
+const {
+  getTopHeadlines
+} = require("../service/api")
 
 /* GET home page */
 router.get("/", (req, res, next) => {
@@ -14,83 +16,118 @@ router.get("/", (req, res, next) => {
 
 /* Get preferences page after signup */
 
-router.get('/preferences', (req, res,next) => {
+router.get('/preferences', (req, res, next) => {
   getTopHeadlines()
-  .then(data => {
-    console.log(data.sources)
-    res.render('preferences', {data});
-  })
-}
-);
+    .then(data => {
+      console.log(data.sources)
+      let categories = data.sources.map(x => {return x.category}) 
+      let uniCategories = [...new Set(categories)];
+      res.render('preferences', {
+        data,
+        uniCategories
+      });
+    })
+});
 
 /* Get articles page after login */
 router.get("/articles", (req, res, next) => {
   //console.log("req.user----------------", req.user)
-res.render("articles")
+  res.render("articles")
 })
 
 router.post("/preferences", (req, res, next) => {
   console.log(req.body.sources);
   console.log(req.user)
 
-   User.findByIdAndUpdate(req.user.id, 
-     {$push: {preferences: req.body.sources}
-   }, {new: true})
-   .then(result => {
-     console.log("looooooooooook  ", result)
-     res.send(result)
- // res.json(result)
-   })
-   .catch(err => console.log(err))
+  User.findByIdAndUpdate(req.user.id, {
+      $push: {
+        preferences: req.body.sources,
+        category: req.body.category
+      }
+    }, {
+      new: true
+    })
+    .then(result => {
+      console.log("looooooooooook  ", result)
+      res.send(result)
+      // res.json(result)
+    })
+    .catch(err => console.log(err))
 
 })
 
 /* signup */
- router.post("/signup",
- (req, res, next) => {
-   const {username, password, birthday, email } = req.body
-  
-   if(!username) {
-     res.render ("home-page" , {message: "You have to fill the field"});
-     return
-   }  if(password.length < 4) {
-     res.render("home-page", {message: "Password is too short"})
-   }
+router.post("/signup",
+  (req, res, next) => {
+    const {
+      username,
+      password,
+      birthday,
+      email
+    } = req.body
 
-     User.findOne({username:username}) 
-     .then( found => {
-       if(found) {'Cast to ObjectId failed for value "" at path "_id" for model "User"'
-         res.render("home-page", {message: "User already exists"})
-       }
-         bcrypt.genSalt().then(salt => {
-           return bcrypt.hash(password, salt)
-         })
-         .then(hash => User.create({username: username, password: hash, birthday: birthday, email: email}))
-         .then(newUser => {
-          //   authenticating the user with passport
-          req.login(newUser, err => {
-            if (err) next(err);
-            else res.redirect("/preferences/");
-          });
-         
+    if (!username) {
+      res.render("home-page", {
+        message: "You have to fill the field"
+      });
+      return
+    }
+    if (password.length < 4) {
+      res.render("home-page", {
+        message: "Password is too short"
+      })
+    }
+
+    User.findOne({
+        username: username
+      })
+      .then(found => {
+        if (found) {
+          'Cast to ObjectId failed for value "" at path "_id" for model "User"'
+          res.render("home-page", {
+            message: "User already exists"
+          })
+        }
+        bcrypt.genSalt().then(salt => {
+            return bcrypt.hash(password, salt)
+          })
+          .then(hash => User.create({
+            username: username,
+            password: hash,
+            birthday: birthday,
+            email: email
+          }))
+          .then(newUser => {
+            //   authenticating the user with passport
+            req.login(newUser, err => {
+              if (err) next(err);
+              else res.redirect("/preferences/");
+            });
 
 
-     }).catch(err => {res.render("/home-page", {message: "something is wrong!"})})
- })
-})
+
+          }).catch(err => {
+            res.render("/home-page", {
+              message: "something is wrong!"
+            })
+          })
+      })
+  })
 
 
 
 /*Login */
 
 router.post('/login',
-  passport.authenticate('local', { successRedirect: '/articles',
-                                   failureRedirect: '/',
-                                   failureFlash: true })
+  passport.authenticate('local', {
+    successRedirect: '/articles',
+    failureRedirect: '/',
+    failureFlash: true
+  })
 );
 
 /* Logout*/
-router.get('/logout', function(req, res){
+router.get('/logout', function (req, res) {
   req.logout();
   res.redirect('/');
 });
@@ -98,14 +135,16 @@ router.get('/logout', function(req, res){
 
 // Google log in 
 
-router.get("/google", passport.authenticate("google", {scope: ["content"]}))
+router.get("/google", passport.authenticate("google", {
+  scope: ["content"]
+}))
 
 router.get(
-  "/google/callback", 
+  "/google/callback",
   passport.authenticate("google", {
     sucessRedirect: "/articles",
     failureRedirect: "/"
   })
-  )
+)
 
 module.exports = router;

@@ -1,54 +1,63 @@
-
 <h>Please make your choices</h>
 
-  <div id="search-bar" class="search-content">
-    <input type="text" placeholder="Search.." id="myInput" onkeyup="filterFunction()">
+<div id="search-bar" class="search-content">
+  <input type="text" placeholder="Search.." id="myInput" onkeyup="filterFunction()">
 
-    {{#each data.sources}}
-        <span class="source-tag">{{name}}</span>
-    {{/each}}
+  {{#each data.sources}}
+  <span class="source-tag">{{name}}</span>
 
-  </div>
+  {{/each}}
 
-  <button onclick="handleSubmit()">Submit your choices</button>
+  {{#each uniCategories}}
+  <p class="categ">{{this}}</p>
+  {{/each}}
+
+</div>
+
+<button onclick="handleSubmit()">Submit your choices</button>
 
 
 <script>
-// let user ={{user}};
-const selectedSources = [];
+  // let user ={{user}};
+  const selectedSources = [];
+  const selectedCategories = [];
 
- document.querySelectorAll(".source-tag").forEach(sourceSelected => {
-     return sourceSelected.addEventListener("click", () => selectedSources.push(sourceSelected.innerHTML))
-     })
-const handleSubmit = () => {
+  document.querySelectorAll(".source-tag").forEach(sourceSelected => {
+    return sourceSelected.addEventListener("click", () => selectedSources.push(sourceSelected.innerHTML))
+  })
+
+  document.querySelectorAll(".categ").forEach(categorySelected => {
+    return categorySelected.addEventListener("click", () => selectedCategories.push(categorySelected.innerHTML))
+  })
+  const handleSubmit = () => {
     console.log(selectedSources)
     // console.log(user)
 
-    axios.post("/preferences", {sources: selectedSources})
-    .then(response => {
+    axios.post("/preferences", { sources: selectedSources, category: selectedCategories })
+      .then(response => {
         console.log(response)
-      window.location.href = "/articles"
-    })
-    .catch(error => {
-       console.log(error)
-    })
-}
+        window.location.href = "/articles"
+      })
+      .catch(error => {
+        console.log(error)
+      })
+  }
 
-function filterFunction() {
-  var input, filter, ul, li, a, i;
-  input = document.getElementById("myInput");
-  filter = input.value.toUpperCase();
-  div = document.getElementById("search-bar");
-  a = div.getElementsByTagName("span");
-  for (i = 0; i < a.length; i++) {
-    txtValue = a[i].textContent || a[i].innerText;
-    if (txtValue.toUpperCase().indexOf(filter) > -1) {
-      a[i].style.display = "";
-    } else {
-      a[i].style.display = "none";
+  function filterFunction() {
+    var input, filter, ul, li, a, i;
+    input = document.getElementById("myInput");
+    filter = input.value.toUpperCase();
+    div = document.getElementById("search-bar");
+    a = div.getElementsByTagName("span");
+    for (i = 0; i < a.length; i++) {
+      txtValue = a[i].textContent || a[i].innerText;
+      if (txtValue.toUpperCase().indexOf(filter) > -1) {
+        a[i].style.display = "";
+      } else {
+        a[i].style.display = "none";
+      }
     }
   }
-}
 </script>
 
 <a href="/logout">Log out</a>
