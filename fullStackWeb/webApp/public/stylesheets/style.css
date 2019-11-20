@@ -8,4 +8,10 @@ a {
 h1 {
   color: red; }
 
+.source-tag {
+  padding: 5px;
+  border-radius: 5px;
+  background-color: aquamarine;
+  margin: 8px; }
+
 /*# sourceMappingURL=style.css.map */
