@@ -19,7 +19,6 @@ router.get("/", (req, res, next) => {
 router.get('/preferences', (req, res, next) => {
   getTopHeadlines()
     .then(data => {
-      // console.log(data.sources)
       let categories = data.sources.map(x => {
         return x.category
       })

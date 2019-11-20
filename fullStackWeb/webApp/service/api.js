@@ -14,18 +14,18 @@ const getTopHeadlines = () => {
 }
 
 const getArticles = (user) => {
-  console.log('USER FROM API CALL', user)
+  //console.log('USER FROM API CALL', user)
   return newsapi.v2.everything({
       q: user.category && user.category.join(','),
       sources: user.preferences && user.preferences.join(','),
       //language: user.languages[math.floor(math.random()*4)]
     })
     .then(response => {
-      console.log('RESPONSE', response)
+      //console.log('RESPONSE', response)
       return response;
     })
     .catch(err => {
-      return console.log(err)
+      console.log("Error", err)
     })
 }
 module.exports = {
