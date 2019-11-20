@@ -3,10 +3,8 @@ const router = express.Router();
 const User = require("../models/User");
 const bcrypt = require("bcryptjs");
 const passport = require("passport");
-
-
 const {
-  getTopHeadlines
+  getTopHeadlines, getArticles
 } = require("../service/api")
 
 /* GET home page */
@@ -20,9 +18,8 @@ router.get("/", (req, res, next) => {
 router.get('/preferences', (req, res, next) => {
   getTopHeadlines()
     .then(data => {
-      let categories = data.sources.map(x => {
-        return x.category
-      })
+      // console.log(data.sources)
+      let categories = data.sources.map(x => {return x.category}) 
       let uniCategories = [...new Set(categories)];
       res.render('preferences', {
         data,
@@ -33,8 +30,11 @@ router.get('/preferences', (req, res, next) => {
 
 /* Get articles page after login */
 router.get("/articles", (req, res, next) => {
-  
-  res.render("articles")
+  getArticles(req.user)
+  .then(data => {
+    let chosenArticles = data.articles.slice(0,10);
+    res.render("articles",{chosenArticles})
+  })
 })
 
 
@@ -105,9 +105,7 @@ router.post("/preferences", (req, res, next) => {
     }
    }, {new: true})
    .then(result => {
-     console.log("looooooooooook ", result)
      res.send(result)
- // res.json(result)
    })
    .catch(err => console.log(err))
   })
