@@ -14,7 +14,6 @@ router.get("/edit", (req, res, next) => {
   })
    
 
-
   axios.delete('')
     .then(response => {
      this.result.splice(id, 1)
