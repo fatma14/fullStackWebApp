@@ -14,20 +14,13 @@ router.get("/edit", (req, res, next) => {
   })
    
 
-  axios.delete('')
-    .then(response => {
-     this.result.splice(id, 1)
-      });
-    console.log(this.result)
-
-
   router.post("/edit", (req, res, next) => {
-  
+
     User.findByIdAndUpdate(req.user.id, {
-        $push: {
-          preferences: req.body.sources,
-          languages: req.body.userLanguages,
-          category: req.body.category
+        $pull: {
+          preferences: {$in: req.body.sources},
+          languages: {$in: req.body.userLanguages},
+          category: {$in: req.body.category}
         }
       }, {
         new: true
@@ -41,26 +34,5 @@ router.get("/edit", (req, res, next) => {
 
 
 
-
-
-
-
-router.post("/edit", (req, res, next) => {
-
-  User.findByIdAndUpdate(req.user.id, {
-      $push: {
-        preferences: req.body.sources,
-        languages: req.body.userLanguages,
-        category: req.body.category
-      }
-    }, {
-      new: true
-    })
-    .then(result => {
-      res.send(result)
-      // res.json(result)
-    })
-    .catch(err => console.log(err))
-})
 
 module.exports = router;

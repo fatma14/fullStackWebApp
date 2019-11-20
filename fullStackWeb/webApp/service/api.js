@@ -21,7 +21,6 @@ const getArticles = (user) => {
      //language: user.languages[math.floor(math.random()*4)]
    })
   .then(response => {
-    console.log(response);
     return response;
   })
   .catch(err => {
