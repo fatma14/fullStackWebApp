@@ -24,6 +24,7 @@
   <p class="categ"> {{this}}</p>
   {{/each}}
   <input type="text" name="categories" id="categories">
+
   <button onclick="handleSubmit()">Submit your choices</button>
 
   </form>
@@ -37,11 +38,16 @@
 
   console.log(selectedSources)
   document.querySelectorAll(".pref").forEach(sourceSelected => {
-    return sourceSelected.addEventListener("click", () => selectedSources.push(sourceSelected.innerHTML))
+    return sourceSelected.addEventListener("click", () => {
+    sourceSelected.setAttribute("id","choiceId");
+    selectedSources.push(sourceSelected.innerHTML);
+    }
+    )
   })
 
   document.querySelectorAll(".lang").forEach(languageSelected => {
-    return languageSelected.addEventListener("click", () => selectedLanguages.push(languageSelected.innerHTML))
+    return languageSelected.addEventListener("click", () => 
+    selectedLanguages.push(languageSelected.innerHTML))
   })
 
   document.querySelectorAll(".categ").forEach(categorySelected => {
@@ -54,7 +60,7 @@
    
     axios.post("/edit", { sources: selectedSources, userLanguages: selectedLanguages, category: selectedCategories })
       .then(response => {
-        //console.log(response)
+        //document.getElementById("choiceId").innerText=""
         window.location.href = "/articles"
       })
       .catch(error => {
