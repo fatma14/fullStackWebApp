@@ -17,14 +17,15 @@ const getArticles = (user) => {
 
    return newsapi.v2.everything({
      q: user.category && user.category.join(','),
-     sources: user.source && user.source.join(','),
+     sources: user.preferences && user.preferences.join(','),
      //language: user.languages[math.floor(math.random()*4)]
    })
   .then(response => {
-    return response;
+    return response
   })
   .catch(err => {
-    return console.log(err)
+    console.log(err)
+     console.log("err")
   })
 }
 module.exports = {getTopHeadlines, getArticles}

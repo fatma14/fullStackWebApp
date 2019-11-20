@@ -41,6 +41,7 @@
     return sourceSelected.addEventListener("click", () => {
     sourceSelected.setAttribute("id","choiceId");
     selectedSources.push(sourceSelected.innerHTML);
+    document.getElementById("choiceId").innerText=""
     }
     )
   })
@@ -54,8 +55,6 @@
     return categorySelected.addEventListener("click", () => selectedCategories.push(categorySelected.innerHTML))
   })
 
-
-    
      const handleSubmit = () => {
    
     axios.post("/edit", { sources: selectedSources, userLanguages: selectedLanguages, category: selectedCategories })
