@@ -14,6 +14,11 @@ const getTopHeadlines = () => {
 }
 
 const getArticles = (user) => {
+  if (user.preferences.length === 0 && user.category.length === 0) {
+    return newsapi.v2.everything({
+      q: "general"
+    })
+  }
   
   return newsapi.v2.everything({
       q: user.category && user.category.join(','),
@@ -28,6 +33,9 @@ const getArticles = (user) => {
       console.log("Error", err)
     })
 }
+
+
+
 module.exports = {
   getTopHeadlines,
   getArticles
