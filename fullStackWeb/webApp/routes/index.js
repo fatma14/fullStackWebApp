@@ -38,27 +38,7 @@ router.get("/articles", (req, res, next) => {
 })
 
 
-router.post("/preferences", (req, res, next) => {
-  
-  User.findByIdAndUpdate(req.user.id, {
-      $push: {
-        preferences: req.body.sources,
-        languages: req.body.userLanguages,
-        category: req.body.category
-      }
-    }, {
-      new: true
-    })
-    .then(result => {
-      res.send(result)
-      // res.json(result)
-    })
-    .catch(err => console.log(err))
-})
-
 /* signup */
-
-
 router.post("/signup",
   (req, res, next) => {
     const {
@@ -114,10 +94,8 @@ router.post("/signup",
     })
 
 
-
+// preferences page
 router.post("/preferences", (req, res, next) => {
-  // console.log(req.body.sources);
-  // console.log(req.user)
 
    User.findByIdAndUpdate(req.user.id, 
      {$push: {
@@ -133,38 +111,6 @@ router.post("/preferences", (req, res, next) => {
    })
    .catch(err => console.log(err))
   })
-
-/* signup */
- router.post("/signup",
- (req, res, next) => {
-   const {username, password, birthday, email } = req.body
-  
-   if(!username) {
-     res.render ("home-page" , {message: "You have to fill the field"});
-     return
-   }  if(password.length < 4) {
-     res.render("home-page", {message: "Password is too short"})
-   }
-
-     User.findOne({username:username}) 
-     .then( found => {
-       if(found) {'Cast to ObjectId failed for value "" at path "_id" for model "User"'
-         res.render("home-page", {message: "User already exists"})
-       }
-         bcrypt.genSalt().then(salt => {
-           return bcrypt.hash(password, salt)
-         })
-         .then(hash => User.create({username: username, password: hash, birthday: birthday, email: email}))
-         .then(newUser => {
-          //   authenticating the user with passport
-          req.login(newUser, err => {
-            if (err) next(err);
-            else res.redirect("/preferences/");
-          });
-     }).catch(err => {res.render("/home-page", {message: "something is wrong!"})})
- })
-})
-
 
 
 /*Login */
