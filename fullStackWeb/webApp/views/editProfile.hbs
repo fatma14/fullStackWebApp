@@ -1,4 +1,6 @@
 
+
+
 <div class="editContainer">
   <form action="/edit">
   <label for="sources">Your sources</label>
@@ -41,11 +43,6 @@
     return sourceSelected.addEventListener("click", () => {
     sourceSelected.setAttribute("id","choiceId");
     selectedSources.push(sourceSelected.innerHTML);
-<<<<<<< HEAD
-    document.getElementById("choiceId").innerText=""
-=======
-    
->>>>>>> 537fd353ca763a2d27b29608fb33dfebfcf16a7f
     }
     )
   })
@@ -53,6 +50,7 @@
   document.querySelectorAll(".lang").forEach(languageSelected => {
     return languageSelected.addEventListener("click", () => 
     selectedLanguages.push(languageSelected.innerHTML));
+    document.getElementById("choiceId").innerText=""
    
   })
 
