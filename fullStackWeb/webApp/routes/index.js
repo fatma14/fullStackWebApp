@@ -32,13 +32,17 @@ router.get('/preferences', (req, res, next) => {
 
 /* Get articles page after login */
 router.get("/articles", (req, res, next) => {
-  getArticles(req.user)
-    .then(data => {
-      let chosenArticles = data.articles.slice(0, 10);
-      res.render("articles", {
-        chosenArticles
-      })
+  User.findById(req.user.id)
+    .then(user => {
+      getArticles(user)
+        .then(data => {
+          let chosenArticles = data.articles.slice(0, 10);
+          res.render("articles", {
+            chosenArticles
+          })
+        })
     })
+
 })
 
 

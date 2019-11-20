@@ -4,7 +4,11 @@
     <div class="d-flex flex row justify-content-center">
 {{#each chosenArticles}}
 <div class="card mb-3 ml-2 col-5" style="width: 18rem;">
+  {{#if urlToImage}}
   <img src="{{urlToImage}}" class="card-img-top" alt="image for the article">
+  {{else}}
+   <img src="/images/mostbeautifulpic.jpeg" class="card-img-top" alt="image for the article">
+   {{/if}}
   <div class="card-body">
     <h5 class="card-title">{{title}}</h5>
     <p class="card-text">{{description}}</p>
