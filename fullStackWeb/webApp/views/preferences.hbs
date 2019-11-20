@@ -42,7 +42,7 @@
 
 
   const handleSubmit = () => {
-   
+
     axios.post("/preferences", { sources: selectedSources, userLanguages: selectedLanguages, category: selectedCategories })
       .then(response => {
         //console.log(response)

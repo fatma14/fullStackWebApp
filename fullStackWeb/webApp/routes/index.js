@@ -4,7 +4,8 @@ const User = require("../models/User");
 const bcrypt = require("bcryptjs");
 const passport = require("passport");
 const {
-  getTopHeadlines, getArticles
+  getTopHeadlines,
+  getArticles
 } = require("../service/api")
 
 /* GET home page */
@@ -18,8 +19,9 @@ router.get("/", (req, res, next) => {
 router.get('/preferences', (req, res, next) => {
   getTopHeadlines()
     .then(data => {
-      // console.log(data.sources)
-      let categories = data.sources.map(x => {return x.category}) 
+      let categories = data.sources.map(x => {
+        return x.category
+      })
       let uniCategories = [...new Set(categories)];
       res.render('preferences', {
         data,
@@ -31,10 +33,12 @@ router.get('/preferences', (req, res, next) => {
 /* Get articles page after login */
 router.get("/articles", (req, res, next) => {
   getArticles(req.user)
-  .then(data => {
-    let chosenArticles = data.articles.slice(0,10);
-    res.render("articles",{chosenArticles})
-  })
+    .then(data => {
+      let chosenArticles = data.articles.slice(0, 10);
+      res.render("articles", {
+        chosenArticles
+      })
+    })
 })
 
 
@@ -91,24 +95,26 @@ router.post("/signup",
             })
           })
       })
-    })
+  })
 
 
 // preferences page
 router.post("/preferences", (req, res, next) => {
 
-   User.findByIdAndUpdate(req.user.id, 
-     {$push: {
-     preferences: req.body.sources,
-     languages: req.body.userLanguages,
-     category: req.body.category
-    }
-   }, {new: true})
-   .then(result => {
-     res.send(result)
-   })
-   .catch(err => console.log(err))
-  })
+  User.findByIdAndUpdate(req.user.id, {
+      $push: {
+        preferences: req.body.sources,
+        languages: req.body.userLanguages,
+        category: req.body.category
+      }
+    }, {
+      new: true
+    })
+    .then(result => {
+      res.send(result)
+    })
+    .catch(err => console.log(err))
+})
 
 
 /*Login */
