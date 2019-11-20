@@ -2,7 +2,8 @@
 <div class="editContainer">
   <form action="/edit">
   <label for="sources">Your sources</label>
-  <p>{{preferences}}</p>
+  {{#each}}
+  <p class="choice-tag">{{preferences}}</p>
   <input type="text" name="sources" id="sources">
 
   <label for="languages">Your languages</label>
@@ -14,10 +15,6 @@
   <input type="text" name="categories" id="categories">
   </form>
 
-  <script>
-    forEach(preferences => {
-     return sourceSelected.addEventListener("click", () => selectedSources.push(sourceSelected.innerHTML))
-     })
-  </script>
+  
 
 </div>
