@@ -1,5 +1,20 @@
 <h1>hey welcome to your page</h1>
 
+<div class="container-fluid">
+    <div class="d-flex flex row justify-content-center">
+{{#each chosenArticles}}
+<div class="card mb-3 ml-2 col-5" style="width: 18rem;">
+  <img src="{{urlToImage}}" class="card-img-top" alt="image for the article">
+  <div class="card-body">
+    <h5 class="card-title">{{title}}</h5>
+    <p class="card-text">{{description}}</p>
+     <p class="card-text"><small class="text-muted">Published at {{publishedAt}} </small></p>
+    <a href="{{url}}" class="btn btn-primary">Click for more</a>
+  </div>
+</div>
+{{/each}}
+</div>
+</div>
 <a href="/logout">Log out</a>
 
 

@@ -16,8 +16,8 @@ return newsapi.v2.sources()
 const getArticles = (user) => {
 
    return newsapi.v2.everything({
-     q: user.category || user.category.join(','),
-     sources: user.source || user.source.join(','),
+     q: user.category && user.category.join(','),
+     sources: user.source && user.source.join(','),
      //language: user.languages[math.floor(math.random()*4)]
    })
   .then(response => {

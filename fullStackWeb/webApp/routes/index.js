@@ -19,7 +19,7 @@ router.get("/", (req, res, next) => {
 router.get('/preferences', (req, res, next) => {
   getTopHeadlines()
     .then(data => {
-      console.log(data.sources)
+      // console.log(data.sources)
       let categories = data.sources.map(x => {return x.category}) 
       let uniCategories = [...new Set(categories)];
       res.render('preferences', {
@@ -32,8 +32,9 @@ router.get('/preferences', (req, res, next) => {
 /* Get articles page after login */
 router.get("/articles", (req, res, next) => {
   getArticles(req.user)
-  .then(articles => {
-    res.render("articles",{articles})
+  .then(data => {
+    let chosenArticles = data.articles.slice(0,10);
+    res.render("articles",{chosenArticles})
   })
 })
 
@@ -49,7 +50,7 @@ router.post("/preferences", (req, res, next) => {
     }
    }, {new: true})
    .then(result => {
-     console.log("looooooooooook ", result)
+     //console.log("looooooooooook ", result)
      res.send(result)
  // res.json(result)
    })
