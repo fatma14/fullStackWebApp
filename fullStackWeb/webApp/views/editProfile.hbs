@@ -2,7 +2,11 @@
 <div class="editContainer">
   <form action="/edit">
   <label for="sources">Your sources</label>
+<<<<<<< HEAD
   <p class ="chosen-element">{{preferences}}</p>
+=======
+  <p>{{preferences}}</p>
+>>>>>>> development
   <input type="text" name="sources" id="sources">
 
   <label for="languages">Your languages</label>
@@ -15,6 +19,7 @@
   </form>
 
   <script>
+<<<<<<< HEAD
 
      document.querySelectorAll(".chosen-element").forEach(choiceSelected => {
     return choiceSelected.addEventListener("click", () => delete(choiceSelected))
@@ -22,6 +27,11 @@
 
   const delete
     
+=======
+    forEach(preferences => {
+     return sourceSelected.addEventListener("click", () => selectedSources.push(sourceSelected.innerHTML))
+     })
+>>>>>>> development
   </script>
 
 </div>

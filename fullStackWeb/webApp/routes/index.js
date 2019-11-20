@@ -3,8 +3,6 @@ const router = express.Router();
 const User = require("../models/User");
 const bcrypt = require("bcryptjs");
 const passport = require("passport");
-
-
 const {
   getTopHeadlines, getArticles
 } = require("../service/api")
@@ -13,6 +11,7 @@ const {
 router.get("/", (req, res, next) => {
   res.render("home-page");
 });
+
 
 /* Get preferences page after signup */
 
@@ -38,9 +37,65 @@ router.get("/articles", (req, res, next) => {
   })
 })
 
+
+/* signup */
+router.post("/signup",
+  (req, res, next) => {
+    const {
+      username,
+      password,
+      birthday,
+      email
+    } = req.body
+
+    if (!username) {
+      res.render("home-page", {
+        message: "You have to fill the field"
+      });
+      return
+    }
+    if (password.length < 4) {
+      res.render("home-page", {
+        message: "Password is too short"
+      })
+    }
+
+    User.findOne({
+        username: username
+      })
+      .then(found => {
+        if (found) {
+          'Cast to ObjectId failed for value "" at path "_id" for model "User"'
+          res.render("home-page", {
+            message: "User already exists"
+          })
+        }
+        bcrypt.genSalt().then(salt => {
+            return bcrypt.hash(password, salt)
+          })
+          .then(hash => User.create({
+            username: username,
+            password: hash,
+            birthday: birthday,
+            email: email
+          }))
+          .then(newUser => {
+            //   authenticating the user with passport
+            req.login(newUser, err => {
+              if (err) next(err);
+              else res.redirect("/preferences/");
+            });
+          }).catch(err => {
+            res.render("/home-page", {
+              message: "something is wrong!"
+            })
+          })
+      })
+    })
+
+
+// preferences page
 router.post("/preferences", (req, res, next) => {
-  // console.log(req.body.sources);
-  // console.log(req.user)
 
    User.findByIdAndUpdate(req.user.id, 
      {$push: {
@@ -50,44 +105,10 @@ router.post("/preferences", (req, res, next) => {
     }
    }, {new: true})
    .then(result => {
-     //console.log("looooooooooook ", result)
      res.send(result)
- // res.json(result)
    })
    .catch(err => console.log(err))
   })
-
-/* signup */
- router.post("/signup",
- (req, res, next) => {
-   const {username, password, birthday, email } = req.body
-  
-   if(!username) {
-     res.render ("home-page" , {message: "You have to fill the field"});
-     return
-   }  if(password.length < 4) {
-     res.render("home-page", {message: "Password is too short"})
-   }
-
-     User.findOne({username:username}) 
-     .then( found => {
-       if(found) {'Cast to ObjectId failed for value "" at path "_id" for model "User"'
-         res.render("home-page", {message: "User already exists"})
-       }
-         bcrypt.genSalt().then(salt => {
-           return bcrypt.hash(password, salt)
-         })
-         .then(hash => User.create({username: username, password: hash, birthday: birthday, email: email}))
-         .then(newUser => {
-          //   authenticating the user with passport
-          req.login(newUser, err => {
-            if (err) next(err);
-            else res.redirect("/preferences/");
-          });
-     }).catch(err => {res.render("/home-page", {message: "something is wrong!"})})
- })
-})
-
 
 
 /*Login */
@@ -107,18 +128,18 @@ router.get('/logout', function (req, res) {
 });
 
 
-// Google log in 
 
+//GOOGLE SIGN UP
 router.get("/google", passport.authenticate("google", {
-  scope: ["content"]
-}))
+  scope: ["profile"]
+}));
 
 router.get(
   "/google/callback",
   passport.authenticate("google", {
-    sucessRedirect: "/articles",
-    failureRedirect: "/"
+    failureRedirect: "/auth/login",
+    successRedirect: "/preferences"
   })
-)
+);
 
 module.exports = router;
