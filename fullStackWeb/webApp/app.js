@@ -138,7 +138,6 @@ passport.use(
           googleId: profile.id
         })
         .then(user => {
-          console.log("-------", user)
           if (user) {
             done(null, user);
           } else {
