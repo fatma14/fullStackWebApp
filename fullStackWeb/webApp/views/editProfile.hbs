@@ -1,62 +1,63 @@
-
 <div class="editContainer">
   <form action="/edit">
-  <label for="sources">Your sources</label>
-
-  {{#each preferences}}
-  <p class="pref">{{this}}</p>
-  {{/each}}
-  <input type="text" name="sources" id="sources">
-
-  <label for="languages">Your languages</label>
- 
- {{#each languages}}
-  <p class="lang">{{this}}</p>
-
-  {{/each}}
-  <input type="text" name="languages" id="languages">
-
-  <label for="categories">Your categories</label>
+    <label for="sources">Your sources</label>
 
 
-  {{#each category}}
-  <p class="categ"> {{this}}</p>
-  {{/each}}
-  <input type="text" name="categories" id="categories">
+    {{#each preferences}}
+    <p class="pref">{{this}}</p>
+    {{/each}}
+    <input type="text" name="sources" id="sources">
 
-  <button onclick="handleSubmit()">Submit your choices</button>
+    <label for="languages">Your languages</label>
+
+    {{#each languages}}
+    <p class="lang">{{this}}</p>
+
+    {{/each}}
+    <input type="text" name="languages" id="languages">
+
+    <label for="categories">Your categories</label>
+
+
+    {{#each category}}
+    <p class="categ"> {{this}}</p>
+    {{/each}}
+    <input type="text" name="categories" id="categories">
+
+    <button onclick="handleSubmit()">Submit your choices</button>
 
   </form>
 
- </div>
-  
-  <script>
+</div>
+
+<script>
   const selectedSources = [];
   const selectedLanguages = [];
   const selectedCategories = [];
 
- 
+
   document.querySelectorAll(".pref").forEach(sourceSelected => {
     return sourceSelected.addEventListener("click", () => {
-    sourceSelected.setAttribute("id","choiceId");
-    selectedSources.push(sourceSelected.innerHTML);
+      sourceSelected.setAttribute("id", "choiceId");
+      selectedSources.push(sourceSelected.innerHTML);
+      document.getElementById("choiceId").innerText = ""
+     sourceSelected.classList.remove('pref')
     }
     )
   })
 
   document.querySelectorAll(".lang").forEach(languageSelected => {
-    return languageSelected.addEventListener("click", () => 
-    selectedLanguages.push(languageSelected.innerHTML));
-    document.getElementById("choiceId").innerText=""
-   
+    return languageSelected.addEventListener("click", () =>
+      selectedLanguages.push(languageSelected.innerHTML));
+
   })
 
   document.querySelectorAll(".categ").forEach(categorySelected => {
     return categorySelected.addEventListener("click", () => selectedCategories.push(categorySelected.innerHTML))
   })
 
-     const handleSubmit = () => {
-   
+  const handleSubmit = () => {
+
     axios.post("/edit", { sources: selectedSources, userLanguages: selectedLanguages, category: selectedCategories })
       .then(response => {
         //document.getElementById("choiceId").innerText=""
@@ -66,5 +67,4 @@
         console.log(error)
       })
   }
-  </script>
-
+</script>
