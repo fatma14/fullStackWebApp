@@ -1,5 +1,5 @@
 <div class="editContainer">
-  <form action="/edit">
+  <form>
     <label for="sources">Your sources</label>
 
 
@@ -8,11 +8,10 @@
     {{/each}}
     <input type="text" name="sources" id="sources">
 
-    <label for="languages">Your languages</label>
-
+    
+   <label for="languages">Your languages</label>
     {{#each languages}}
     <p class="lang">{{this}}</p>
-
     {{/each}}
     <input type="text" name="languages" id="languages">
 
@@ -31,6 +30,7 @@
 </div>
 
 <script>
+  /*
   const selectedSources = [];
   const selectedLanguages = [];
   const selectedCategories = [];
@@ -41,7 +41,7 @@
       sourceSelected.setAttribute("id", "choiceId");
       selectedSources.push(sourceSelected.innerHTML);
       document.getElementById("choiceId").innerText = ""
-     sourceSelected.classList.remove('pref')
+      sourceSelected.classList.remove('pref')
     }
     )
   })
@@ -55,13 +55,21 @@
   document.querySelectorAll(".categ").forEach(categorySelected => {
     return categorySelected.addEventListener("click", () => selectedCategories.push(categorySelected.innerHTML))
   })
+*/
 
   const handleSubmit = () => {
 
-    axios.post("/edit", { sources: selectedSources, userLanguages: selectedLanguages, category: selectedCategories })
+    let inputSources = document.querySelector('#sources').value
+    let inputLanguages = document.querySelector("#languages").value
+    let inputCategories = document.querySelector("#categories").value
+
+
+    console.log('SUBMIT')
+    axios.post("/edit/add", { sources: inputSources, userLanguages: inputLanguages, categories: inputCategories })
       .then(response => {
+        console.log('AXIOS CALLED')
         //document.getElementById("choiceId").innerText=""
-        window.location.href = "/articles"
+        //window.location.href = "/edit"
       })
       .catch(error => {
         console.log(error)

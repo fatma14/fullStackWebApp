@@ -37,7 +37,10 @@ const app = express();
 
 // Middleware Setup
 app.use(session({
-  secret: "cats"
+  secret: "cats",
+  cookie: {
+    maxAge: 24 * 60 * 60 * 60
+  }
 }));
 
 app.use(logger("dev"));
