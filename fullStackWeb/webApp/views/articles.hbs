@@ -1,6 +1,18 @@
-<h1>hey welcome to your page</h1>
 
-<div class="container-fluid">
+<nav class="navbar navbar-light bg-light">
+  <a class="navbar-brand d-flex align-items-center" href="#">
+    <img src="/images/filters-icon.png" width="30" height="30" class="d-inline-block align-top " alt="">
+    OPTIONATED
+  </a>
+    <form class="form-inline">
+    <button class="btn btn-outline-success mr-3" type="button"><a href="/edit">Edit</a></button
+    >
+    <button class="btn btn-outline-success" type="button"><a href="/logout">Log out</a></button
+    >
+    </form>
+</nav>
+
+<div class="container-fluid mt-5">
     <div class="d-flex flex row justify-content-center">
 {{#each chosenArticles}}
 <div class="card mb-3 ml-2 col-5" style="width: 18rem;">
@@ -20,9 +32,9 @@
 </div>
 </div>
 
-<a href="/edit">Edit</a> <br>
 
-<a href="/logout">Log out</a>
+
+
 
 
 

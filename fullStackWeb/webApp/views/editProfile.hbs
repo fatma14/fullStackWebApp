@@ -8,21 +8,21 @@
     {{/each}}
     <input type="text" name="sources" id="sources">
 
-    <label for="languages">Your languages</label>
+    <label for="languages">add source</label>
 
     {{#each languages}}
     <p class="lang">{{this}}</p>
-
     {{/each}}
     <input type="text" name="languages" id="languages">
 
-    <label for="categories">Your categories</label>
+    <label for="categories">add languages </label>
 
 
     {{#each category}}
     <p class="categ"> {{this}}</p>
     {{/each}}
     <input type="text" name="categories" id="categories">
+    <label for="categories">add categories</label> 
 
     <button onclick="handleSubmit()">Submit your choices</button>
 
@@ -38,9 +38,8 @@
 
   document.querySelectorAll(".pref").forEach(sourceSelected => {
     return sourceSelected.addEventListener("click", () => {
-      sourceSelected.setAttribute("id", "choiceId");
       selectedSources.push(sourceSelected.innerHTML);
-      document.getElementById("choiceId").innerText = ""
+      sourceSelected.innerText = ""
      sourceSelected.classList.remove('pref')
     }
     )
@@ -60,7 +59,7 @@
 
     axios.post("/edit", { sources: selectedSources, userLanguages: selectedLanguages, category: selectedCategories })
       .then(response => {
-        //document.getElementById("choiceId").innerText=""
+        
         window.location.href = "/articles"
       })
       .catch(error => {
