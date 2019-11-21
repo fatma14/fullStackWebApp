@@ -1,5 +1,3 @@
-<h1>Welcome</h1>
-
 <div id="particle-container">
 	<div class="particle"></div>
 	<div class="particle"></div>
@@ -33,78 +31,58 @@
 	<div class="particle"></div>
 </div>
 
-
-<div class="container">
-
-  <form id="form" action="/signup" method="POST">
-
-    <div class="input-group mb-3">
-      <div class="input-group-prepend">
-        <span class="input-group-text" id="inputGroup-sizing-default">Username</span>
-      </div>
-      <input name="username" type="text" class="form-control" placeholder="Username" aria-label="Sizing example input"
-        aria-describedby="inputGroup-sizing-default">
-    </div>
-
-    <div class="input-group mb-3">
-      <div class="input-group-prepend">
-        <span class="input-group-text" id="inputGroup-sizing-default">Password</span>
-      </div>
-      <input name="password" type="password" class="form-control" placeholder="********"
-        aria-label="Sizing example input" aria-describedby="inputGroup-sizing-default">
-    </div>
-
-    <div class="input-group mb-3">
-      <div class="input-group-prepend">
-        <span class="input-group-text" id="inputGroup-sizing-default">E-mail</span>
-      </div>
-      <input name="email" type="text" class="form-control" placeholder="@example.com" aria-label="Sizing example input"
-        aria-describedby="inputGroup-sizing-default">
-    </div>
-
-    <div class="input-group mb-3">
-      <div class="input-group-prepend">
-        <span class="input-group-text" id="inputGroup-sizing-default">Birthday</span>
-      </div>
-      <input name="birthday" type="Date" class="form-control" aria-label="Sizing example input"
-        aria-describedby="inputGroup-sizing-default">
-    </div>
-
-    <button type="submit" class="btn btn-success mb-5">Create account</button>
-
-  </form>
-</div>
-
 {{#if message}}
 <p class="error-message">{{message}}</p>
 {{/if}}
 
 
-<div class="container">
-  <form action="/login" method="post">
+  <div class="nav-bar"> 
 
-    <div class="input-group mb-3">
-      <div class="input-group-prepend">
-        <span class="input-group-text" id="inputGroup-sizing-default">Username</span>
-      </div>
-      <input name="username" type="text" class="form-control" placeholder="Username" aria-label="Sizing example input"
-        aria-describedby="inputGroup-sizing-default">
+     <div class="name">
+     <form action="/login" method="post">
+      <span>Username</span> <br>
+      <input name="username" type="text"  placeholder="Username">
     </div>
 
-    <div class="input-group mb-3">
-      <div class="input-group-prepend">
-        <span class="input-group-text" id="inputGroup-sizing-default">Password</span>
-      </div>
-      <input name="password" type="password" class="form-control" placeholder="********"
-        aria-label="Sizing example input" aria-describedby="inputGroup-sizing-default">
+    <div class="pass">
+      <span>Password</span> <br>
+      <input name="password" type="password" placeholder="********">
+    </div>      
+    <div class="loginBtn">
+      <button>Log In</button>
     </div>
-
-    <div>
-      <input type="submit" class="btn btn-success mb-5" value="Log In" />
-    </div>
-
   </form>
+ </div>
 
-  <a href="/google">Sign up with Google</a>
+{{!----SIGN UP ----}}
+
+  <h2>Create new account</h2> <br>
+   <h4>It's very easy</h4>
+
+
+     <div class="signUp">
+      
+       <div class="signInputs">
+       <form id="form" action="/signup" method="POST">
+       
+         <div>
+          <input name="username" type="text"  placeholder="Username" >
+        </div>
+        <div>
+         <input name="password" type="password"  placeholder="********">
+         </div>
+         <div>
+         <input name="email" type="text" placeholder="email adress">
+         </div>
+
+         <div>
+         <span>Birthday</span>
+         <input name="birthday" type="Date">
+         </div>
+         </div>
+         <button>Sign up</button>
+     </form>
+
+ {{!-- <a href="/google">Sign up with Google</a>--}}
 
 </div>

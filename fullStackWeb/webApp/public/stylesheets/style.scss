@@ -1,5 +1,5 @@
 body {
-  padding: 50px;
+  
   font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
 }
 
@@ -7,9 +7,7 @@ a {
   color: #00B7FF;
 }
 
-h1 {
-  color: red
-}
+
 
 .pref {
   background-color: lightblue;
@@ -44,4 +42,48 @@ h1 {
 		transform: translate3d((random(90) * 1vw), (random(90) * 1vh), (random(100) * 1px));
 		background: hsl(random(360), 70%, 50%);
 	}
+}
+
+h2 {
+	display: flex;
+	justify-content: center;
+	margin-top: 2.5rem;
+}
+
+h4 {
+	display: flex;
+	justify-content: center;
+}
+.nav-bar {
+background-color: aquamarine;
+margin: 0;
+height: 12vh;
+display: flex;
+justify-content: flex-end;
+align-items: center;
+}
+
+.name {
+ padding: 20px;
+
+}
+.name input {
+	background-color: #ffffff;
+}
+
+
+.loginBtn {
+  margin-top: 0.9rem;
+  padding: 1.5rem;
+}
+
+.signUp {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+}
+
+.signInputs {
+   padding: 8em;
+   align-items: space-between;
 }
